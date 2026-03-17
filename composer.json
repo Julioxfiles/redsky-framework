@@ -1,11 +1,11 @@
 {
-  "name": "sky/framework",
+  "name": "redsky/framework",
   "description": "Skynet PHP Framework",
   "type": "library",
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Sky\\": "src/"
+      "Redsky\\": "src/"
     }
   },
   "require": {
