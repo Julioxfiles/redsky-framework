@@ -1,10 +1,22 @@
 {
-    "name": "redsky/framework",
-    "type": "library",
-    "autoload": {
-        "psr-4": {
-            "RedSky\\": "src/"
-        }
-    },
-    "require": {}
+  "name": "redsky/framework",
+  "description": "Laravel-style Lightweight PHP framework",
+  "type": "library",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Julio Cesar Acosta Anzures",
+      "email": "julioacostaanzures@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Redsky\\Framework\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.1"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }
