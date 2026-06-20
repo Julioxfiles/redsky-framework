@@ -14,9 +14,9 @@ class Container
 
     public function singleton(string $abstract, callable|string $concrete): void
     {
-        $this->bindings[$abstract] = function () use ($concrete, $abstract) {
+        $this->bindings[$abstract] = function ($container) use ($concrete, $abstract) {
             if (!isset($this->instances[$abstract])) {
-                $this->instances[$abstract] = $this->build($concrete);
+                $this->instances[$abstract] = $container->resolve($concrete);
             }
             return $this->instances[$abstract];
         };
@@ -35,10 +35,19 @@ class Container
                 return $concrete($this);
             }
 
-            return $this->build($concrete);
+            return $this->resolve($concrete);
         }
 
-        return $this->build($abstract);
+        return $this->resolve($abstract);
+    }
+
+    protected function resolve(string|callable $concrete)
+    {
+        if ($concrete instanceof \Closure) {
+            return $concrete($this);
+        }
+
+        return $this->build($concrete);
     }
 
     protected function build(string $concrete)
@@ -75,5 +84,5 @@ class Container
 
         return $reflector->newInstanceArgs($dependencies);
     }
-    
+
 }
