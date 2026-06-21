@@ -1,0 +1,98 @@
+Listado de rutas de carpetas para el volumen WinToUSB
+El n£mero de serie del volumen es BCC5-AC22
+C:.
+³   .gitignore
+³   arbol.txt
+³   composer.json
+³   composer.lock
+³   README.md
+³   tree.txt
+³   
+ÃÄÄÄnotes
+³   ÀÄÄÄComo se creo el framework
+³           01 - Container.md
+³           02 - Aplication.md
+³           03 - Se necesita un entry point.md
+³           04 - Como pruebo el framework.md
+³           05 - Con que problar.md
+³           06 - El Kernel y preparacion de redsky-api para pruebas.md
+³           07 - Usando github y Packagist.md
+³           08 - Comandos composer.md
+³           09 - Guia de pasos en github y Packagist.md
+³           10 - Revision de archivos creados.md
+³           
+ÃÄÄÄsrc
+³   ÃÄÄÄAuth
+³   ³       Auth.php
+³   ³       
+³   ÃÄÄÄContainer
+³   ³       Container.php
+³   ³       
+³   ÃÄÄÄDatabase
+³   ³   ÃÄÄÄConnection
+³   ³   ³       Connection.php
+³   ³   ³       
+³   ³   ÃÄÄÄGrammars
+³   ³   ³       Grammar.php
+³   ³   ³       MySqlGrammar.php
+³   ³   ³       PostgresGrammar.php
+³   ³   ³       SqliteGrammar.php
+³   ³   ³       SqlServerGrammar.php
+³   ³   ³       
+³   ³   ÀÄÄÄQueryBuilder
+³   ³           QueryBuilder.php
+³   ³           
+³   ÃÄÄÄEvents
+³   ³       Event.php
+³   ³       
+³   ÃÄÄÄHttp
+³   ³   ³   Kernel.php
+³   ³   ³   
+³   ³   ÃÄÄÄMiddleware
+³   ³   ÃÄÄÄRequest
+³   ³   ³       Request.php
+³   ³   ³       
+³   ³   ÃÄÄÄResponse
+³   ³   ³       Response.php
+³   ³   ³       
+³   ³   ÃÄÄÄRoute
+³   ³   ³       Route.php
+³   ³   ³       
+³   ³   ÃÄÄÄRouteDefinition
+³   ³   ³       RouteDefinition.php
+³   ³   ³       
+³   ³   ÀÄÄÄRouter
+³   ³           Router.php
+³   ³           
+³   ÃÄÄÄPipeline
+³   ³       Pipeline.php
+³   ³       
+³   ÃÄÄÄProviders
+³   ³       AppServiceProvider.php
+³   ³       
+³   ÃÄÄÄSupport
+³   ³       Application.php
+³   ³       helpers.php
+³   ³       
+³   ÃÄÄÄValidation
+³   ³       Validator.php
+³   ³       
+³   ÀÄÄÄView
+³       ÀÄÄÄComponents
+ÃÄÄÄtests
+ÀÄÄÄvendor
+    ³   autoload.php
+    ³   
+    ÀÄÄÄcomposer
+            autoload_classmap.php
+            autoload_namespaces.php
+            autoload_psr4.php
+            autoload_real.php
+            autoload_static.php
+            ClassLoader.php
+            installed.json
+            installed.php
+            InstalledVersions.php
+            LICENSE
+            platform_check.php
+            
