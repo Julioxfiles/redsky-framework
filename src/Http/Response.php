@@ -1,0 +1,184 @@
+<?php
+
+namespace Redsky\Framework\Http;
+
+class Response
+{
+    protected int $status;
+    protected array $headers = [];
+    protected mixed $body;
+
+    /* =========================================================
+     | Constructor
+     |========================================================= */
+
+    public function __construct(
+        mixed $body = null,
+        int $status = 200,
+        array $headers = []
+    ) {
+        $this->body    = $body;
+        $this->status  = $status;
+        $this->headers = $headers;
+    }
+
+    /* =========================================================
+     | Factory methods
+     |========================================================= */
+
+    public static function make(
+        mixed $body = null,
+        int $status = 200,
+        array $headers = []
+    ): static {
+        return new static($body, $status, $headers);
+    }
+
+    public static function json(
+        mixed $data,
+        int $status = 200,
+        array $headers = []
+    ): static {
+        $headers['Content-Type'] = 'application/json';
+
+        return new static(
+            json_encode(
+                $data,
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            ),
+            $status,
+            $headers
+        );
+    }
+
+    public static function text(
+        string $content,
+        int $status = 200,
+        array $headers = []
+    ): static {
+        $headers['Content-Type'] = 'text/plain';
+
+        return new static($content, $status, $headers);
+    }
+
+    public static function noContent(): static
+    {
+        return new static(null, 204);
+    }
+
+    /* =========================================================
+     | Status
+     |========================================================= */
+
+    public function status(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /* =========================================================
+     | Body
+     |========================================================= */
+
+    public function body(): mixed
+    {
+        return $this->body;
+    }
+
+    public function setBody(mixed $body): static
+    {
+        $this->body = $body;
+        return $this;
+    }
+
+    /* =========================================================
+     | Headers
+     |========================================================= */
+
+    public function headers(): array
+    {
+        return $this->headers;
+    }
+
+    public function setHeader(string $key, string $value): static
+    {
+        $this->headers[$key] = $value;
+        return $this;
+    }
+
+    public function setHeaders(array $headers): static
+    {
+        foreach ($headers as $key => $value) {
+            $this->headers[$key] = $value;
+        }
+
+        return $this;
+    }
+
+    /* =========================================================
+     | Convenience headers
+     |========================================================= */
+
+    public function withHeader(string $key, string $value): static
+    {
+        return $this->setHeader($key, $value);
+    }
+
+    public function withHeaders(array $headers): static
+    {
+        return $this->setHeaders($headers);
+    }
+
+    public function withJson(): static
+    {
+        return $this->setHeader('Content-Type', 'application/json');
+    }
+
+    public function withText(): static
+    {
+        return $this->setHeader('Content-Type', 'text/plain');
+    }
+
+    public function withLocation(string $url): static
+    {
+        return $this->setHeader('Location', $url);
+    }
+
+    public function withCors(
+        string $origin = '*',
+        string $methods = 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+        string $headers = 'Content-Type, Authorization'
+    ): static {
+        $this->headers['Access-Control-Allow-Origin']  = $origin;
+        $this->headers['Access-Control-Allow-Methods'] = $methods;
+        $this->headers['Access-Control-Allow-Headers'] = $headers;
+
+        return $this;
+    }
+
+    /* =========================================================
+     | Getter helpers
+     |========================================================= */
+
+    public function isJson(): bool
+    {
+        return ($this->headers['Content-Type'] ?? '') === 'application/json';
+    }
+
+    public function isOk(): bool
+    {
+        return $this->status >= 200 && $this->status < 300;
+    }
+
+    public function isError(): bool
+    {
+        return $this->status >= 400;
+    }
+    
+ 
+}

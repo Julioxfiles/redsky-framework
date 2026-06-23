@@ -2,64 +2,29 @@
 
 namespace Redsky\Framework\Http;
 
+use Throwable;
 use Redsky\Framework\Container\Container;
 
 class Kernel
 {
-    protected Container $container;
-
-    protected array $middleware = [];
-
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
+    public function __construct(
+        protected Container $container,
+        protected Router $router,
+        protected Handler $handler
+    ) {}
 
     /**
-     * Bootstrap principal del framework
+     * MAIN ENTRY POINT
      */
-    public function handle($request)
+    public function handle(Request $request): Response
     {
-        // 1. Ejecutar middleware global (placeholder)
-        $request = $this->runMiddleware($request);
+        try {
+            // Router is the ONLY lifecycle owner
+            return $this->router->dispatch($request);
 
-        // 2. Resolver respuesta base (placeholder)
-        return $this->dispatch($request);
-    }
-
-    /**
-     * Middleware pipeline (versión inicial simple)
-     */
-    protected function runMiddleware($request)
-    {
-        foreach ($this->middleware as $middleware) {
-
-            if (is_string($middleware)) {
-                $middleware = $this->container->make($middleware);
-            }
-
-            if (method_exists($middleware, 'handle')) {
-                $request = $middleware->handle($request);
-            }
+        } catch (Throwable $e) {
+            return $this->handler->handle($e);
         }
-
-        return $request;
     }
-
-    /**
-     * Punto de salida del request
-     * (después conectaremos Router)
-     */
-    protected function dispatch($request)
-    {
-        return $request;
-    }
-
-    /**
-     * Agregar middleware global
-     */
-    public function addMiddleware($middleware)
-    {
-        $this->middleware[] = $middleware;
-    }
+    
 }
