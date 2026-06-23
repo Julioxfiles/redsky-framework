@@ -12,7 +12,10 @@
   "autoload": {
     "psr-4": {
       "Redsky\\Framework\\": "src/"
-    }
+    },
+    "files": [
+      "src/Support/helpers.php"     
+    ]
   },
   "require": {
     "php": ">=8.1"

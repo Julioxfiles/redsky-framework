@@ -1,8 +1,8 @@
 <?php
 
-namespace Redsky\Framework\Http;
+namespace Redsky\Framework\Routing;
 
-use Redsky\Framework\Http\Router;
+use Redsky\Framework\Routing\Router;
 
 class Route
 {

@@ -77,20 +77,17 @@ class Request
     {
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
-        // elimina query string
         $path = parse_url($uri, PHP_URL_PATH) ?? '/';
 
-        // limpia múltiples slashes
-        $path = '/' . trim($path, '/');
-
-        // elimina /redsky-api/public si todavía viene (caso XAMPP fallback)
         $base = '/redsky-api/public';
 
         if (str_starts_with($path, $base)) {
             $path = substr($path, strlen($base));
         }
 
-        return trim($path, '/');
+        $path = '/' . trim($path, '/');
+
+        return $path === '//' ? '/' : $path;
     }
 
     public function query(): array

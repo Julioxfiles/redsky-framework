@@ -1,10 +1,10 @@
 <?php
 
-namespace Redsky\Framework\Http;
+namespace Redsky\Framework\Routing;
 
 use Closure;
 use Exception;
-use Redsky\Framework\Http\RouteDefinition;
+use Redsky\Framework\Routing\RouteDefinition;
 use Redsky\Framework\Http\Request;
 use Redsky\Framework\Http\Response;
 
@@ -64,7 +64,11 @@ class Router
     public function dispatch(Request $request): Response
     {
         $method = $request->method();
-        $uri    = $this->normalizeUri($request->path());
+        //$uri    = $this->normalizeUri($request->path());
+        $uri = $request->path();
+        
+        //var_dump($uri);
+        //var_dump($this->routes);
 
         foreach ($this->routes[$method] ?? [] as $route) {
 

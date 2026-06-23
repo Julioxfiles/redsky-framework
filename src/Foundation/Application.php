@@ -3,33 +3,32 @@
 namespace Redsky\Framework\Foundation;
 
 use Redsky\Framework\Container\Container;
-use Redsky\Framework\Http\Kernel;
 use Redsky\Framework\Http\Request;
 use Redsky\Framework\Http\Response;
-use Redsky\Framework\Http\Router;
+use Redsky\Framework\Routing\Route;
+use Redsky\Framework\Routing\Router;
+use Redsky\Framework\Support\Env;
 use Redsky\Framework\Http\Handler;
 
 class Application
 {
     protected Container $container;
-    protected Kernel $kernel;
     protected static ?self $instance = null;
 
     public function __construct()
     {
         $this->container = new Container();
 
-        $router  = new Router();
-        $handler = new Handler();
+        $this->bootstrap();
+        $this->loadDevTools();
 
-        $this->kernel = new Kernel(
-            $this->container,
-            $router,
-            $handler
-        );
+        /**
+         * Router MUST come from bootstrap/app.php
+         * (single source of truth)
+         */
+        $this->container->singleton(Router::class, fn () => new Router());
 
-        // IMPORTANT: bind router to Route facade
-        \Redsky\Framework\Http\Route::setRouter($router);
+        $this->container->singleton(Handler::class, fn () => new Handler());
     }
 
     public static function getInstance(): static
@@ -37,15 +36,18 @@ class Application
         return static::$instance ??= new static();
     }
 
-    public function kernel(): Kernel
+    public function container(): Container
     {
-        return $this->kernel;
+        return $this->container;
     }
 
     public function run(): void
     {
-        $request  = Request::capture();
-        $response = $this->kernel->handle($request);
+        $request = Request::capture();
+
+        $router = $this->container->make(Router::class);
+
+        $response = $router->dispatch($request);
 
         $this->send($response);
     }
@@ -61,4 +63,25 @@ class Application
         echo $response->body();
     }
 
+    protected function bootstrap(): void
+    {
+        $this->bootEnvironment();
+    }
+
+    protected function bootEnvironment(): void
+    {
+        $envPath = dirname(__DIR__, 3) . '/.env';
+
+        if (file_exists($envPath)) {
+            Env::load($envPath);
+        }
+    }
+
+    protected function loadDevTools(): void
+    {
+        if (($_ENV['APP_ENV'] ?? 'production') !== 'production') {
+            require dirname(__DIR__, 2) . '/dev/helpers.php';
+        }
+    }
+    
 }
