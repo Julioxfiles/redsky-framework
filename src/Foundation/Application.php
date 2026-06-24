@@ -1,14 +1,14 @@
 <?php
 
-namespace Redsky\Framework\Foundation;
+namespace RedSky\Framework\Foundation;
 
-use Redsky\Framework\Container\Container;
-use Redsky\Framework\Http\Request;
-use Redsky\Framework\Http\Response;
-use Redsky\Framework\Routing\Route;
-use Redsky\Framework\Routing\Router;
-use Redsky\Framework\Support\Env;
-use Redsky\Framework\Http\Handler;
+use RedSky\Framework\Container\Container;
+use RedSky\Framework\Http\Request;
+use RedSky\Framework\Http\Response;
+use RedSky\Framework\Routing\Route;
+use RedSky\Framework\Routing\Router;
+use RedSky\Framework\Support\Env;
+use RedSky\Framework\Http\Handler;
 
 class Application
 {

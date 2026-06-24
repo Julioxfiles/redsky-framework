@@ -1,6 +1,6 @@
 <?php
 
-namespace Redsky\Framework\Http;
+namespace RedSky\Framework\Http;
 
 class Response
 {
@@ -188,5 +188,44 @@ class Response
     {
         return $this->status >= 400;
     }
+
+    public static function ok(mixed $data = null, string $message = 'OK'): static
+    {
+        return static::json([
+            'success' => true,
+            'status'  => 200,
+            'message' => $message,
+            'data'    => $data,
+            'errors'  => [],
+        ], 200);
+    }
+
+    public static function created(mixed $data = null, string $message = 'Created'): static
+    {
+        return static::json([
+            'success' => true,
+            'status'  => 201,
+            'message' => $message,
+            'data'    => $data,
+            'errors'  => [],
+        ], 201);
+    }
         
+    public static function error(string $message, int $status = 400, array $errors = []): static
+    {
+        return static::json([
+            'success' => false,
+            'status'  => $status,
+            'message' => $message,
+            'data'    => null,
+            'errors'  => $errors,
+        ], $status);
+    }
+
+    public static function validationError(array $errors, string $message = 'Validation failed'): static
+    {
+        return static::error($message, 422, $errors);
+    }
+
+
 }

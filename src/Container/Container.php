@@ -1,6 +1,6 @@
 <?php
 
-namespace Redsky\Framework\Container;
+namespace RedSky\Framework\Container;
 
 class Container
 {

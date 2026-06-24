@@ -1,6 +1,6 @@
 <?php
 
-namespace Redsky\Framework\Http;
+namespace RedSky\Framework\Http;
 
 class Request
 {
@@ -228,6 +228,69 @@ class Request
     public function segment(int $index, mixed $default = null): mixed
     {
         return $this->segments()[$index - 1] ?? $default;
-    }
     
+    }
+
+    public function filled(string $key): bool
+    {
+        if (! $this->has($key)) {
+            return false;
+        }
+
+        $value = $this->input($key);
+
+        return !(
+            $value === null ||
+            $value === '' ||
+            $value === [] ||
+            (is_string($value) && trim($value) === '')
+        );
+    }
+ 
+    public function string(string $key, string $default = ''): string
+    {
+        $value = $this->input($key, $default);
+
+        if (is_array($value) || is_object($value)) {
+            return $default;
+        }
+
+        return trim((string) $value);
+    }
+
+    public function integer(string $key, int $default = 0): int
+    {
+        $value = $this->input($key, $default);
+
+        if (is_numeric($value)) {
+            return (int) $value;
+        }
+
+        return $default;
+    }
+
+    public function boolean(string $key, bool $default = false): bool
+    {
+        if (! $this->has($key)) {
+            return $default;
+        }
+
+        $value = $this->input($key);
+
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+            ?? $default;
+    }
+
+    public function array(string $key, array $default = []): array
+    {
+        $value = $this->input($key, $default);
+
+        return is_array($value) ? $value : $default;
+    }
+
+    public function missing(string $key): bool
+    {
+        return ! $this->has($key);
+    }
+
 }

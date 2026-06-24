@@ -2,8 +2,8 @@
 
 // redsky-framework/src/Support/helpers.php
 
-use Redsky\Framework\Foundation\Application;
-use Redsky\Framework\Http\Response;
+use RedSky\Framework\Foundation\Application;
+use RedSky\Framework\Http\Response;
 
 if (!function_exists('app')) {
     function app(): Application
@@ -107,9 +107,3 @@ if (!function_exists('class_basename')) {
     }
 }
 
-if (!function_exists('response')) {
-    function response(): Response
-    {
-        return new Response();
-    }
-}

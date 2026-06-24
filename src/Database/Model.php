@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Models;
+namespace RedSky\Framework\Database;
 
 use PDO;
 use Exception;

@@ -1,6 +1,6 @@
 <?php
 
-RedSky\Framework\Database\Query\Concerns;
+namespace RedSky\Framework\Database\Query\Concerns;
 
 trait Mutations
 {

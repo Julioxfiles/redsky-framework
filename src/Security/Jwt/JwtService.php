@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Redsky\Framework\Security\Jwt;
+namespace RedSky\Framework\Security\Jwt;
 
 use Exception;
 

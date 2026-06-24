@@ -11,7 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Redsky\\Framework\\": "src/"
+      "RedSky\\Framework\\": "src/"
     },
     "files": [
       "src/Support/helpers.php"     

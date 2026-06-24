@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Redsky\Framework\Support;
+namespace RedSky\Framework\Support;
 
 class JwtService
 {

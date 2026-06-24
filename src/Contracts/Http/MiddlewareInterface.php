@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Redsky\Framework\Contracts\Http;
+namespace RedSky\Framework\Contracts\Http;
 
-use Redsky\Framework\Http\Request;
-use Redsky\Framework\Http\Response;
+use RedSky\Framework\Http\Request;
+use RedSky\Framework\Http\Response;
 use Closure;
 
 interface MiddlewareInterface
