@@ -1,0 +1,22 @@
+<?php
+declare(strict_types=1);
+
+namespace RedSky\Framework\Exceptions;
+
+use Exception;
+
+class ValidationException extends Exception
+{
+    protected array $errors;
+
+    public function __construct(string $message, array $errors = [])
+    {
+        parent::__construct($message);
+        $this->errors = $errors;
+    }
+
+    public function errors(): array
+    {
+        return $this->errors;
+    }
+}
