@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RedSky\Framework\Foundation;
 
 use RedSky\Framework\Container\Container;
@@ -17,18 +19,18 @@ class Application
 
     public function __construct()
     {
+        if (static::$instance !== null) {
+            return;
+        }
+
+        static::$instance = $this;
+
         $this->container = new Container();
 
         $this->bootstrap();
         $this->loadDevTools();
 
-        /**
-         * Router MUST come from bootstrap/app.php
-         * (single source of truth)
-         */
-        $this->container->singleton(Router::class, fn () => new Router());
-
-        $this->container->singleton(Handler::class, fn () => new Handler());
+        $this->registerCoreServices();
     }
 
     public static function getInstance(): static
@@ -39,6 +41,13 @@ class Application
     public function container(): Container
     {
         return $this->container;
+    }
+
+    protected function registerCoreServices(): void
+    {
+        $this->container->singleton(Router::class, fn () => new Router());
+
+        $this->container->singleton(Handler::class, fn () => new Handler());
     }
 
     public function run(): void
@@ -70,18 +79,13 @@ class Application
 
     protected function bootEnvironment(): void
     {
-        $envPath = dirname(__DIR__, 3) . '/.env';
-
-        if (file_exists($envPath)) {
-            Env::load($envPath);
-        }
     }
 
     protected function loadDevTools(): void
     {
         if (($_ENV['APP_ENV'] ?? 'production') !== 'production') {
-            require dirname(__DIR__, 2) . '/dev/helpers.php';
+            require dirname(__DIR__, 2) . '/src/Support/helpers.php';
         }
     }
-    
+
 }

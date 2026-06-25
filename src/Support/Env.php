@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace RedSky\Framework\Support;
@@ -19,7 +20,7 @@ class Env
             throw new RuntimeException("Environment file not found: {$path}");
         }
 
-        $lines = file($path, FILE_IGNORE_NEW_LINES);
+        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         foreach ($lines as $line) {
 
@@ -30,36 +31,46 @@ class Env
                 continue;
             }
 
-            // skip comments (# or //)
+            // skip comments
             if (str_starts_with($line, '#') || str_starts_with($line, '//')) {
                 continue;
             }
 
-            // remove optional export keyword
+            // remove export keyword (bash style)
             if (str_starts_with($line, 'export ')) {
                 $line = substr($line, 7);
             }
 
-            // split only first =
-            $pos = strpos($line, '=');
-
-            if ($pos === false) {
-                continue; // invalid line, ignore safely
+            // must contain =
+            if (!str_contains($line, '=')) {
+                continue;
             }
 
-            $key = trim(substr($line, 0, $pos));
-            $value = trim(substr($line, $pos + 1));
+            [$key, $value] = explode('=', $line, 2);
 
-            // remove quotes safely
-            $value = trim($value, "\"'");
+            $key = trim($key);
+            $value = trim($value);
 
             if ($key === '') {
                 continue;
             }
 
+            // remove surrounding quotes safely
+            if (
+                (str_starts_with($value, '"') && str_ends_with($value, '"')) ||
+                (str_starts_with($value, "'") && str_ends_with($value, "'"))
+            ) {
+                $value = substr($value, 1, -1);
+            }
+
+            // handle escaped characters (basic support)
+            $value = str_replace('\n', "\n", $value);
+            $value = str_replace('\r', "\r", $value);
+            $value = str_replace('\t', "\t", $value);
+
             $_ENV[$key] = $value;
             $_SERVER[$key] = $value;
-            putenv("{$key}={$value}");
+            putenv("$key=$value");
         }
 
         static::$loaded = true;

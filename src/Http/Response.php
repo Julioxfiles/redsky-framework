@@ -227,5 +227,11 @@ class Response
         return static::error($message, 422, $errors);
     }
 
+    public static function redirect(string $to, int $status = 302): static
+    {
+        return new static(null, $status, [
+            'Location' => $to,
+        ]);
+    }
 
 }

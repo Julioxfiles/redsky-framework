@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace RedSky\Framework\Security\Jwt;
@@ -8,21 +9,24 @@ use Exception;
 class JwtService
 {
     protected string $secret;
-    protected string $algo = 'HS256';
+    protected string $algo;
+    protected int $ttl;
 
-    public function __construct(string $secret)
+    public function __construct(array $config)
     {
-        if ($secret === '') {
+        if (empty($config['secret'])) {
             throw new Exception('JWT secret is not configured.');
         }
 
-        $this->secret = $secret;
+        $this->secret = $config['secret'];
+        $this->algo   = $config['algorithm'] ?? 'HS256';
+        $this->ttl    = $config['ttl'] ?? 3600;
     }
 
     /* ========================================
      * Encode
      * ====================================== */
-    public function encode(array $claims, int $ttlSeconds = 3600): string
+    public function encode(array $claims, ?int $ttlSeconds = null): string
     {
         $header = [
             'typ' => 'JWT',
@@ -30,6 +34,7 @@ class JwtService
         ];
 
         $now = time();
+        $ttlSeconds ??= $this->ttl;
 
         $payload = array_merge($claims, [
             'iat' => $now,
@@ -89,7 +94,7 @@ class JwtService
     protected function sign(string $data): string
     {
         return $this->base64UrlEncode(
-            hash_hmac('sha256', $data, $this->secret, true)
+            hash_hmac($this->algo === 'HS256' ? 'sha256' : 'sha256', $data, $this->secret, true)
         );
     }
 
