@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Framework\Http;
+namespace RedSky\Http;
 
 class Request
 {
@@ -70,24 +70,20 @@ class Request
 
     public function uri(): string
     {
-        return $this->uri;
+        return $this->path();
     }
 
     public function path(): string
     {
-        $uri = $_SERVER['REQUEST_URI'] ?? '/';
+        $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 
-        $path = parse_url($uri, PHP_URL_PATH) ?? '/';
+        $script = dirname($_SERVER['SCRIPT_NAME']);
 
-        $base = '/redsky-api/public';
-
-        if (str_starts_with($path, $base)) {
-            $path = substr($path, strlen($base));
+        if ($script !== '/' && str_starts_with($path, $script)) {
+            $path = substr($path, strlen($script));
         }
 
-        $path = '/' . trim($path, '/');
-
-        return $path === '//' ? '/' : $path;
+        return $path ?: '/';
     }
 
     public function query(): array

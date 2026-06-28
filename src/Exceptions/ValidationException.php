@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Framework\Exceptions;
+namespace RedSky\Exceptions;
 
 use Exception;
 

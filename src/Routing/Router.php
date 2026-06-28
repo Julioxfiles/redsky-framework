@@ -1,12 +1,12 @@
 <?php
 
-namespace RedSky\Framework\Routing;
+namespace RedSky\Routing;
 
 use Closure;
 use Exception;
-use RedSky\Framework\Routing\RouteDefinition;
-use RedSky\Framework\Http\Request;
-use RedSky\Framework\Http\Response;
+use RedSky\Routing\RouteDefinition;
+use RedSky\Http\Request;
+use RedSky\Http\Response;
 
 class Router
 {

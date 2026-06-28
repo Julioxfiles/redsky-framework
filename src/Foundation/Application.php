@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace RedSky\Framework\Foundation;
+namespace RedSky\Foundation;
 
-use RedSky\Framework\Container\Container;
-use RedSky\Framework\Http\Request;
-use RedSky\Framework\Http\Response;
-use RedSky\Framework\Routing\Route;
-use RedSky\Framework\Routing\Router;
-use RedSky\Framework\Support\Env;
-use RedSky\Framework\Http\Handler;
+use RedSky\Container\Container;
+use RedSky\Http\Request;
+use RedSky\Http\Response;
+use RedSky\Routing\Route;
+use RedSky\Routing\Router;
+use RedSky\Http\Handler;
 
 class Application
 {
     protected Container $container;
+
     protected static ?self $instance = null;
+
+    protected ?string $routesPath = null;
 
     public function __construct()
     {
@@ -28,6 +30,7 @@ class Application
         $this->container = new Container();
 
         $this->bootstrap();
+
         $this->loadDevTools();
 
         $this->registerCoreServices();
@@ -45,13 +48,42 @@ class Application
 
     protected function registerCoreServices(): void
     {
-        $this->container->singleton(Router::class, fn () => new Router());
+        /*
+        |------------------------------------------------------------------
+        | SINGLE SOURCE OF TRUTH (Router)
+        |------------------------------------------------------------------
+        | Creamos UNA sola instancia y la compartimos en todo el sistema
+        */
 
+        $router = new Router();
+
+        // 1. Registrar en container como instancia única
+        $this->container->instance(Router::class, $router);
+
+        // 2. IMPORTANTE: el facade Route usa esta misma instancia
+        Route::setRouter($router);
+
+        // 3. Handler (sin cambios)
         $this->container->singleton(Handler::class, fn () => new Handler());
+    }
+
+    public function loadRoutes(string $path): static
+    {
+        if (! file_exists($path)) {
+            throw new \RuntimeException("Routes file not found: {$path}");
+        }
+
+        $this->routesPath = $path;
+
+        return $this;
     }
 
     public function run(): void
     {
+        if ($this->routesPath !== null) {
+            require $this->routesPath;
+        }
+
         $request = Request::capture();
 
         $router = $this->container->make(Router::class);
@@ -87,5 +119,4 @@ class Application
             require dirname(__DIR__, 2) . '/src/Support/helpers.php';
         }
     }
-
 }

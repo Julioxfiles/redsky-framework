@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Framework\Http;
+namespace RedSky\Http;
 
 use Throwable;
 

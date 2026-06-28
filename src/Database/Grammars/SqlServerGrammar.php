@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Framework\Database\Grammars;
+namespace RedSky\Database\Grammars;
 
-use RedSky\Framework\Database\Query\QueryBuilder;
+use RedSky\Database\Query\QueryBuilder;
 
 class SqlServerGrammar extends Grammar
 {

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Framework\Exceptions;
+namespace RedSky\Exceptions;
 
-use RedSky\Framework\Http\Response;
-use RedSky\Framework\Exceptions\HttpException;
-use RedSky\Framework\Exceptions\ValidationException;
+use RedSky\Http\Response;
+use RedSky\Exceptions\HttpException;
+use RedSky\Exceptions\ValidationException;
 use Throwable;
 
 class Handler

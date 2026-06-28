@@ -2,8 +2,8 @@
 
 // redsky-framework/src/Support/helpers.php
 
-use RedSky\Framework\Foundation\Application;
-use RedSky\Framework\Http\Response;
+use RedSky\Foundation\Application;
+use RedSky\Http\Response;
 
 if (!function_exists('app')) {
     function app(): Application

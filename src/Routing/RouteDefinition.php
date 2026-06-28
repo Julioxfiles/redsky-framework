@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Framework\Routing;
+namespace RedSky\Routing;
 
 class RouteDefinition
 {

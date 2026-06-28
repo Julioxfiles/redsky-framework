@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Framework\Http\Middleware;
+namespace RedSky\Http\Middleware;
 
-use RedSky\Framework\Contracts\Http\MiddlewareInterface;
-use RedSky\Framework\Http\Request;
-use RedSky\Framework\Http\Response;
-use RedSky\Framework\Security\Jwt\JwtService;
+use RedSky\Contracts\Http\MiddlewareInterface;
+use RedSky\Http\Request;
+use RedSky\Http\Response;
+use RedSky\Security\Jwt\JwtService;
 use Closure;
 
 class AuthMiddleware implements MiddlewareInterface

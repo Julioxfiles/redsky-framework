@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Framework\Http;
+namespace RedSky\Http;
 
 class Response
 {
@@ -65,7 +65,7 @@ class Response
         int $status = 200,
         array $headers = []
     ): static {
-        $headers['Content-Type'] = 'text/plain';
+        $headers['Content-Type'] = 'text/html';
 
         return new static($content, $status, $headers);
     }
@@ -225,6 +225,11 @@ class Response
     public static function validationError(array $errors, string $message = 'Validation failed'): static
     {
         return static::error($message, 422, $errors);
+    }
+
+    public static function unauthorized(string $message = 'Unauthorized'): static
+    {
+        return static::error($message, 401);
     }
 
     public static function redirect(string $to, int $status = 302): static

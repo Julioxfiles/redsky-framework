@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Framework\Database\Connection;
+namespace RedSky\Database\Connection;
 
 use PDO;
 use PDOException;
 use Exception;
-use RedSky\Framework\Database\Grammars\{
+use RedSky\Database\Grammars\{
     Grammar,
     MySqlGrammar,
     PostgresGrammar,

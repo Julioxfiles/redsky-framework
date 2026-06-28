@@ -1,8 +1,8 @@
 <?php
 
-namespace RedSky\Framework\Exceptions;
+namespace RedSky\Exceptions;
 
-use RedSky\Framework\Exceptions\HttpException;
+use RedSky\Exceptions\HttpException;
 
 class ModelNotFoundException extends HttpException
 {

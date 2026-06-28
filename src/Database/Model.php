@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Framework\Database;
+namespace RedSky\Database;
 
 use PDO;
 use Exception;
 use JsonSerializable;
-use RedSky\Framework\Database\Query\QueryBuilder;
-use RedSky\Framework\Database\Grammars\Grammar;
+use RedSky\Database\Query\QueryBuilder;
+use RedSky\Database\Grammars\Grammar;
 
 abstract class Model implements JsonSerializable
 {
@@ -207,8 +207,14 @@ abstract class Model implements JsonSerializable
             ->first();
     }
 
-    public static function where(string $column, string $operator, mixed $value): QueryBuilder
+    public static function where(string $column, mixed $operator = null, mixed $value = null): QueryBuilder
     {
+        // Si solo pasan 2 argumentos: where('email', 'test@mail.com')
+        if ($value === null) {
+            $value = $operator;
+            $operator = '=';
+        }
+
         return static::query()->where($column, $operator, $value);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Framework\Container;
+namespace RedSky\Container;
 
 class Container
 {
@@ -18,6 +18,7 @@ class Container
             if (!isset($this->instances[$abstract])) {
                 $this->instances[$abstract] = $container->resolve($concrete);
             }
+
             return $this->instances[$abstract];
         };
     }
@@ -83,6 +84,11 @@ class Container
         }
 
         return $reflector->newInstanceArgs($dependencies);
+    }
+
+    public function instance(string $abstract, $instance): void
+    {
+        $this->instances[$abstract] = $instance;
     }
 
 }

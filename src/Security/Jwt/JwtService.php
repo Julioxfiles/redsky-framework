@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RedSky\Framework\Security\Jwt;
+namespace RedSky\Security\Jwt;
 
 use Exception;
 

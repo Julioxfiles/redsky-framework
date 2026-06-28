@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Framework\Http\Middleware;
+namespace RedSky\Http\Middleware;
 
-use RedSky\Framework\Http\Contracts\Middleware;
-use RedSky\Framework\Http\Request;
-use RedSky\Framework\Http\Response;
+use RedSky\Http\Contracts\Middleware;
+use RedSky\Http\Request;
+use RedSky\Http\Response;
 use Closure;
 
 class JsonMiddleware implements Middleware

@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Framework\Database\Query\Concerns;
+namespace RedSky\Database\Query\Concerns;
 
 trait ExecutesQueries
 {
