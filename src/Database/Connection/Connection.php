@@ -6,7 +6,7 @@ namespace RedSky\Framework\Database\Connection;
 use PDO;
 use PDOException;
 use Exception;
-use RedSky\Database\Grammars\{
+use RedSky\Framework\Database\Grammars\{
     Grammar,
     MySqlGrammar,
     PostgresGrammar,
