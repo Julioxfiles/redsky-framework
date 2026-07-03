@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Database\Query\Concerns;
+namespace RedSky\Framework\Database\Query\Concerns;
 
 trait Aggregates
 {

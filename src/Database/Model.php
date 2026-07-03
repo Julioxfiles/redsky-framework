@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Database;
+namespace RedSky\Framework\Database;
 
 use PDO;
 use Exception;
 use JsonSerializable;
-use RedSky\Database\Query\QueryBuilder;
-use RedSky\Database\Grammars\Grammar;
+use RedSky\Framework\Database\Query\QueryBuilder;
+use RedSky\Framework\Database\Grammars\Grammar;
 
 abstract class Model implements JsonSerializable
 {

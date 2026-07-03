@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Database\Query;
+namespace RedSky\Framework\Database\Query;
 
 use PDO;
-use RedSky\Database\Grammars\Grammar;
-use RedSky\Database\Grammars\MySqlGrammar;
-use RedSky\Database\Query\Concerns\{
+use RedSky\Framework\Database\Grammars\Grammar;
+use RedSky\Framework\Database\Grammars\MySqlGrammar;
+use RedSky\Framework\Database\Query\Concerns\{
     BuildsWhere,
     BuildsSelect,
     ExecutesQueries,

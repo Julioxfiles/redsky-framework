@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Database\Connection;
+namespace RedSky\Framework\Database\Connection;
 
 use PDO;
 use PDOException;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace RedSky\Security\Auth;
+namespace RedSky\Framework\Security\Auth;
 
-use RedSky\Security\Jwt\JwtService;
+use RedSky\Framework\Security\Jwt\JwtService;
 
 class Auth
 {

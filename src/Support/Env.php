@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RedSky\Support;
+namespace RedSky\Framework\Support;
 
 use RuntimeException;
 

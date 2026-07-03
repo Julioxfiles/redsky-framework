@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace RedSky\Database\Grammars;
+namespace RedSky\Framework\Database\Grammars;
 
-use RedSky\Database\Query\QueryBuilder;
+use RedSky\Framework\Database\Query\QueryBuilder;
 
 abstract class Grammar
 {

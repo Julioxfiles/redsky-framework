@@ -1,9 +1,9 @@
 <?php
 
-namespace RedSky\Http;
+namespace RedSky\Framework\Http;
 
 use Throwable;
-use RedSky\Container\Container;
+use RedSky\Framework\Container\Container;
 
 class Kernel
 {

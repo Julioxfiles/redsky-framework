@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Http;
+namespace RedSky\Framework\Http;
 
 class Request
 {

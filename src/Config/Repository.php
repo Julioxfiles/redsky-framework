@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RedSky\Config;
+namespace RedSky\Framework\Config;
 
 class Repository
 {

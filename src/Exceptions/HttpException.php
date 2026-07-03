@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Exceptions;
+namespace RedSky\Framework\Exceptions;
 
 use Exception;
 

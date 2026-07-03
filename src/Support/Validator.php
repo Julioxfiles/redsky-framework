@@ -1,6 +1,6 @@
 <?php
 
-namespace RedSky\Support;
+namespace RedSky\Framework\Support;
 
 class Validator
 {

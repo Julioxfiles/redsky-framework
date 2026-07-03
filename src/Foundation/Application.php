@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace RedSky\Foundation;
+namespace RedSky\Framework\Foundation;
 
-use RedSky\Container\Container;
-use RedSky\Http\Request;
-use RedSky\Http\Response;
-use RedSky\Routing\Route;
-use RedSky\Routing\Router;
-use RedSky\Http\Handler;
+use RedSky\Framework\Container\Container;
+use RedSky\Framework\Http\Request;
+use RedSky\Framework\Http\Response;
+use RedSky\Framework\Routing\Route;
+use RedSky\Framework\Routing\Router;
+use RedSky\Framework\Http\Handler;
 
 class Application
 {
