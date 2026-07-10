@@ -14,6 +14,7 @@ class Request
     protected array $cookies = [];
     protected array $files = [];
     protected array $server = [];
+    protected array $routeParameters = [];
 
     /* =========================================================
      | Factory
@@ -287,6 +288,34 @@ class Request
     public function missing(string $key): bool
     {
         return ! $this->has($key);
+    }
+
+    /* =========================================================
+    | Route parameters
+    |========================================================= */
+
+    public function setRouteParameters(array $parameters): static
+    {
+        $this->routeParameters = array_merge(
+            $this->routeParameters,
+            $parameters
+        );
+
+        return $this;
+    }
+
+    public function route(?string $key = null, mixed $default = null): mixed
+    {
+        if ($key === null) {
+            return $this->routeParameters;
+        }
+
+        return $this->routeParameters[$key] ?? $default;
+    }
+
+    public function hasRouteParameter(string $key): bool
+    {
+        return array_key_exists($key, $this->routeParameters);
     }
 
 }

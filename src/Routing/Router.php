@@ -68,13 +68,17 @@ class Router
         $uri = $request->path();
         
         //var_dump($uri);
-        //var_dump($this->routes);
+        //echo "<pre>";
+        //print_r($this->routes);
+        //die();
 
         foreach ($this->routes[$method] ?? [] as $route) {
 
             $params = [];
 
             if ($this->match($route->getUri(), $uri, $params)) {
+
+                $request->setRouteParameters($params);
 
                 $controller = function (Request $request) use ($route, $params) {
                     return $this->execute(
@@ -155,6 +159,9 @@ class Router
         Request $request
     ): Response {
         [$controllerClass, $method] = $action;
+        //var_dump($controllerClass);
+        //var_dump($action);
+        //die();
 
         // 🔥 Ya NO se inyecta Response
         $controller = new $controllerClass($request);
@@ -239,9 +246,16 @@ class Router
         $params = [];
 
         foreach ($routeParts as $index => $part) {
-            if (preg_match('/^{(.+)}$/', $part)) {
-                $params[] = $requestParts[$index];
-            } elseif ($part !== $requestParts[$index]) {
+
+            if (preg_match('/^{(.+)}$/', $part, $matches)) {
+
+                // $matches[1] contiene el nombre del parámetro
+                $params[$matches[1]] = $requestParts[$index];
+
+                continue;
+            }
+
+            if ($part !== $requestParts[$index]) {
                 return false;
             }
         }

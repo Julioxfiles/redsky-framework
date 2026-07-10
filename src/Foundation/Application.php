@@ -10,10 +10,12 @@ use RedSky\Framework\Http\Response;
 use RedSky\Framework\Routing\Route;
 use RedSky\Framework\Routing\Router;
 use RedSky\Framework\Http\Handler;
+use RedSky\Framework\Providers\ServiceProvider;
 
 class Application
 {
     protected Container $container;
+    protected array $providers = [];
 
     protected static ?self $instance = null;
 
@@ -65,6 +67,8 @@ class Application
 
         // 3. Handler (sin cambios)
         $this->container->singleton(Handler::class, fn () => new Handler());
+
+        
     }
 
     public function loadRoutes(string $path): static
@@ -119,4 +123,19 @@ class Application
             require dirname(__DIR__, 2) . '/src/Support/helpers.php';
         }
     }
+
+    public function registerProvider(ServiceProvider $provider): void
+    {
+        $this->providers[] = $provider;
+
+        $provider->register();
+    }
+
+    public function bootProviders(): void
+    {
+        foreach ($this->providers as $provider) {
+            $provider->boot();
+        }
+    }
+
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RedSky\Framework\Support;
+namespace RedSky\Framework\Providers;
 
 use RedSky\Framework\Foundation\Application;
 
