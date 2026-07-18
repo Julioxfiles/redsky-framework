@@ -219,16 +219,34 @@ class Router
             return Response::json(['data' => $result], 200);
         }
 
-        // 6. Objects → attempt serialization
-        if (is_object($result)) {
-            if (method_exists($result, 'toArray')) {
-                return Response::json($result->toArray(), 200);
-            }
+        //var_dump(get_class($result));
+        //die();
 
-            return Response::json(get_object_vars($result), 200);
+        // 6. Stringable objects (Views, HTML builders, etc.)
+        if ($result instanceof \Stringable) {
+            return Response::text(
+                (string) $result
+            );
         }
 
-        // 7. Fallback safety
+
+        // 7. Objects → attempt serialization
+        if (is_object($result)) {
+
+            if (method_exists($result, 'toArray')) {
+                return Response::json(
+                    $result->toArray(),
+                    200
+                );
+            }
+
+            return Response::json(
+                get_object_vars($result),
+                200
+            );
+        }
+
+        // 8. Fallback safety
         return Response::json([
             'message' => 'Unsupported response type'
         ], 500);

@@ -107,3 +107,15 @@ if (!function_exists('class_basename')) {
     }
 }
 
+if (! function_exists('asset')) {
+
+    /**
+     * Generate the URL for a public asset.
+     */
+    function asset(string $path = ''): string
+    {
+        $path = ltrim($path, '/');
+
+        return '/redsky/redsky-ui/public/' . $path;
+    }
+}

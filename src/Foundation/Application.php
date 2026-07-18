@@ -93,8 +93,8 @@ class Application
         $router = $this->container->make(Router::class);
 
         $response = $router->dispatch($request);
-
         $this->send($response);
+
     }
 
     protected function send(Response $response): void
@@ -106,6 +106,7 @@ class Application
         }
 
         echo $response->body();
+        
     }
 
     protected function bootstrap(): void
