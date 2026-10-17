@@ -11,6 +11,7 @@ use RedSky\Framework\Routing\Route;
 use RedSky\Framework\Routing\Router;
 use RedSky\Framework\Http\Handler;
 use RedSky\Framework\Providers\ServiceProvider;
+use RedSky\Framework\Session\Session;
 
 class Application
 {
@@ -68,6 +69,18 @@ class Application
         // 3. Handler (sin cambios)
         $this->container->singleton(Handler::class, fn () => new Handler());
 
+        $this->container->singleton(
+            Session::class,
+            fn () => new Session(
+                secure: filter_var(
+                    env('SESSION_SECURE', true),
+                    FILTER_VALIDATE_BOOLEAN
+                ),
+                httpOnly: true,
+                sameSite: 'Lax'
+            )
+        );
+
         
     }
 
@@ -82,19 +95,37 @@ class Application
         return $this;
     }
 
+    /**
+     * Handle the current HTTP request.
+     *
+     * @return void
+     */
     public function run(): void
     {
+        $sessionEnabled = filter_var(
+            env('SESSION_ENABLED', false),
+            FILTER_VALIDATE_BOOLEAN
+        );
+
+        if ($sessionEnabled) {
+            $session = $this->container->make(Session::class);
+            $session->start();
+        }
+
         if ($this->routesPath !== null) {
             require $this->routesPath;
         }
 
         $request = Request::capture();
 
+        // Register the current request in the container.
+        $this->container->instance(Request::class, $request);
+
         $router = $this->container->make(Router::class);
 
         $response = $router->dispatch($request);
-        $this->send($response);
 
+        $this->send($response);
     }
 
     protected function send(Response $response): void
@@ -118,12 +149,20 @@ class Application
     {
     }
 
+    /**
+     * Load development helper functions.
+     *
+     * @return void
+     */
     protected function loadDevTools(): void
     {
-        if (($_ENV['APP_ENV'] ?? 'production') !== 'production') {
-            require dirname(__DIR__, 2) . '/src/Support/helpers.php';
+        if (env('APP_ENV', 'production') !== 'production') {
+            $devPath = dirname(__DIR__, 2) . '/dev/';
+
+            require_once $devPath . 'dev_helpers.php';
         }
     }
+   
 
     public function registerProvider(ServiceProvider $provider): void
     {

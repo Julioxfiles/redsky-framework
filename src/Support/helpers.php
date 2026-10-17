@@ -3,26 +3,39 @@
 // redsky-framework/src/Support/helpers.php
 
 use RedSky\Framework\Foundation\Application;
-use RedSky\Framework\Http\Response;
 
 if (!function_exists('app')) {
-    function app(): Application
+    /**
+     * Retrieve the application or resolve a service.
+     *
+     * @param string|null $abstract Service class or identifier.
+     *
+     * @return mixed
+     */
+    function app(?string $abstract = null): mixed
     {
-        return Application::getInstance();
+        $app = Application::getInstance();
+
+        if ($abstract === null) {
+            return $app;
+        }
+
+        return $app->container()->make($abstract);
     }
 }
 
-if (!function_exists('env')) {
+if (! function_exists('env')) {
+    /**
+     * Retrieve an environment variable.
+     *
+     * @param string $key     Environment variable name.
+     * @param mixed  $default Default value when the variable is unavailable.
+     *
+     * @return mixed
+     */
     function env(string $key, mixed $default = null): mixed
     {
-        $value =
-            $_ENV[$key]
-            ?? $_SERVER[$key]
-            ?? getenv($key);
-
-        return ($value === false || $value === null)
-            ? $default
-            : $value;
+        return \RedSky\Framework\Support\Env::get($key, $default);
     }
 }
 
@@ -108,7 +121,6 @@ if (!function_exists('class_basename')) {
 }
 
 if (! function_exists('asset')) {
-
     /**
      * Generate the URL for a public asset.
      */
@@ -119,3 +131,71 @@ if (! function_exists('asset')) {
         return '/redsky/redsky-ui/public/' . $path;
     }
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| Request Helper
+|--------------------------------------------------------------------------
+*/
+
+if (!function_exists('request')) {
+    /**
+     * Retrieve the current HTTP request.
+     *
+     * @return \RedSky\Framework\Http\Request
+     */
+    function request(): \RedSky\Framework\Http\Request
+    {
+        return app()->container()->make(
+            \RedSky\Framework\Http\Request::class
+        );
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Response Helper
+|--------------------------------------------------------------------------
+*/
+
+if (!function_exists('response')) {
+    /**
+     * Retrieve the response factory.
+     *
+     * @return \RedSky\Framework\Http\ResponseFactory
+     */
+    function response(): \RedSky\Framework\Http\ResponseFactory
+    {
+        return new \RedSky\Framework\Http\ResponseFactory();
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Redirect Helper
+|--------------------------------------------------------------------------
+*/
+
+if (!function_exists('redirect')) {
+    function redirect(string $to): \RedSky\Framework\Http\Response
+    {
+        return response()->redirect($to);
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| URL Helper (simple base)
+|--------------------------------------------------------------------------
+*/
+
+if (!function_exists('url')) {
+    function url(string $path = ''): string
+    {
+        $base = rtrim(env('APP_URL', 'http://localhost'), '/');
+
+        return $base . '/' . ltrim($path, '/');
+    }
+}
+
